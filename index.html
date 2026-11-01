@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Precios 3D</title>
+  <meta name="description" content="Calcula costos y precios de venta de productos de impresión 3D.">
+  <meta name="theme-color" content="#1d5bff">
+  <meta name="color-scheme" content="light">
+
+  <!-- PWA -->
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" type="image/png" href="./img/icons/favicon-64.png">
+  <link rel="apple-touch-icon" href="./img/icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Precios 3D">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+  <div class="bg-shapes" aria-hidden="true">
+    <span class="shape s1"></span><span class="shape s2"></span><span class="shape s3"></span>
+  </div>
+
+  <div id="net-banner" class="net-banner" hidden>Sin conexión a internet</div>
+
+  <main id="app">
+
+    <!-- ============ INICIO ============ -->
+    <section id="view-home" class="view" data-view="home">
+      <header class="home-header">
+        <img class="home-logo" src="./img/logo-app.webp" alt="" width="640" height="578">
+        <h1 class="app-title">Precios <span>3D</span></h1>
+      </header>
+
+      <nav class="home-options" aria-label="Opciones principales">
+        <a class="option-card" href="#/productos" id="opt-productos">
+          <img src="./img/productos-3d.webp" alt="" width="632" height="640">
+          <span class="option-name">Productos 3D</span>
+        </a>
+        <a class="option-card" href="#/calculadora" id="opt-calculadora">
+          <img src="./img/calculadora.webp" alt="" width="640" height="590">
+          <span class="option-name">Calculadora</span>
+        </a>
+      </nav>
+    </section>
+
+    <!-- ============ CALCULADORA ============ -->
+    <section id="view-calc" class="view" data-view="calc" hidden>
+      <header class="topbar">
+        <a class="back-btn" href="#/" aria-label="Volver al inicio">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.4 5.4 9.8 12l5.6 6.6-1.5 1.3L7.2 12l6.7-7.9z"/></svg>
+        </a>
+        <img class="topbar-icon" src="./img/calculadora.webp" alt="" width="640" height="590">
+        <h2 id="calc-title">Calculadora</h2>
+      </header>
+
+      <form id="calc-form" class="card form-card" novalidate autocomplete="off">
+        <div class="field">
+          <label for="f-nombre">Nombre del producto</label>
+          <input id="f-nombre" name="nombre" type="text" maxlength="120" placeholder="Ej.: Maceta espiral">
+          <small class="err" data-for="f-nombre"></small>
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label for="f-rollo">Rollo de 1 kg (RD$)</label>
+            <input id="f-rollo" name="rollo" type="text" inputmode="decimal" placeholder="0.00">
+            <small class="err" data-for="f-rollo"></small>
+          </div>
+          <div class="field">
+            <label for="f-peso">Peso pieza (g)</label>
+            <input id="f-peso" name="peso" type="text" inputmode="decimal" placeholder="0">
+            <small class="err" data-for="f-peso"></small>
+          </div>
+          <div class="field">
+            <label for="f-extra">Material extra (RD$)</label>
+            <input id="f-extra" name="extra" type="text" inputmode="decimal" placeholder="0.00">
+            <small class="err" data-for="f-extra"></small>
+          </div>
+          <div class="field">
+            <label for="f-impresion">Impresión (h)</label>
+            <input id="f-impresion" name="impresion" type="text" inputmode="decimal" placeholder="0">
+            <small class="err" data-for="f-impresion"></small>
+          </div>
+          <div class="field span-2">
+            <label for="f-personal">Tiempo personal (h)</label>
+            <input id="f-personal" name="personal" type="text" inputmode="decimal" placeholder="0">
+            <small class="err" data-for="f-personal"></small>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-big" id="btn-calc">Calcular costos</button>
+      </form>
+
+      <div id="result" class="card result-card" hidden aria-live="polite">
+        <p class="result-label">Precio de venta sugerido:</p>
+        <p class="result-value" id="result-value">RD$ 0.00</p>
+      </div>
+
+      <div class="card form-card final-card">
+        <div class="field">
+          <label for="f-final">Precio final (RD$)</label>
+          <input id="f-final" name="final" type="text" inputmode="decimal" placeholder="Escribe el precio final">
+          <small class="err" data-for="f-final"></small>
+        </div>
+        <button type="button" class="btn btn-accent btn-big" id="btn-save">
+          <span class="btn-text">Guardar producto</span>
+        </button>
+        <button type="button" class="btn btn-ghost" id="btn-cancel-edit" hidden>Cancelar edición</button>
+      </div>
+    </section>
+
+    <!-- ============ PRODUCTOS ============ -->
+    <section id="view-products" class="view" data-view="products" hidden>
+      <header class="topbar">
+        <a class="back-btn" href="#/" aria-label="Volver al inicio">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.4 5.4 9.8 12l5.6 6.6-1.5 1.3L7.2 12l6.7-7.9z"/></svg>
+        </a>
+        <img class="topbar-icon" src="./img/productos-3d.webp" alt="" width="632" height="640">
+        <h2>Productos 3D</h2>
+        <button type="button" class="icon-btn" id="btn-refresh" aria-label="Actualizar lista" title="Actualizar">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.65 6.35A8 8 0 1 0 19.73 14h-2.08a6 6 0 1 1-1.42-6.22L13 11h7V4l-2.35 2.35Z"/></svg>
+        </button>
+      </header>
+
+      <div class="toolbar">
+        <div class="search">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 14h-.8l-.3-.3A6.5 6.5 0 1 0 14 15.5l.3.3v.8l5 5 1.5-1.5-5-5Zm-6 0a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9Z"/></svg>
+          <input id="search" type="search" placeholder="Buscar por nombre" aria-label="Buscar productos por nombre">
+        </div>
+        <a class="btn btn-primary btn-new" href="#/calculadora" id="btn-new">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"/></svg>
+          Nuevo
+        </a>
+      </div>
+
+      <p id="list-notice" class="notice" hidden></p>
+      <ul id="product-list" class="product-list" aria-live="polite"></ul>
+      <div id="list-state" class="list-state" hidden></div>
+    </section>
+  </main>
+
+  <!-- Diálogo de confirmación -->
+  <div id="dialog" class="dialog-backdrop" hidden>
+    <div class="dialog" role="alertdialog" aria-modal="true" aria-labelledby="dialog-title" aria-describedby="dialog-msg">
+      <h3 id="dialog-title"></h3>
+      <p id="dialog-msg"></p>
+      <div class="dialog-actions">
+        <button type="button" class="btn btn-ghost" id="dialog-cancel">Cancelar</button>
+        <button type="button" class="btn btn-primary" id="dialog-ok">Aceptar</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+  <script src="./js/config.js"></script>
+  <script src="./js/calc.js"></script>
+  <script src="./js/app.js"></script>
+</body>
+</html>
