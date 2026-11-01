@@ -5,5 +5,5 @@
  * (termina en /exec).
  */
 window.PRECIOS3D_CONFIG = {
-  API_URL: "PEGA_AQUI_TU_ENLACE_/exec"
-};
+  API_URL: "https://script.google.com/macros/s/AKfycbzJzksLlxmjU43vdFpHpXYn85mNqJYARkTh-UlxaMbIUIWxHvLArKUVDk2aFgnrM6kb/exec"
+}
